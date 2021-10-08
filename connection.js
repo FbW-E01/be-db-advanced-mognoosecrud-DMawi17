@@ -1,11 +1,15 @@
 import mongoose from "mongoose";
+import dotenv from "dotenv";
 import create from "./create.js";
 import read from "./read.js";
 import updateAnd from "./update.js";
 import deleteUser from "./delete.js";
 const { connect, connection } = mongoose;
 
-connect("mongodb://classTester:1to5@localhost:27017/test");
+dotenv.config();
+const { DB_USER, DB_PASS } = process.env;
+
+connect(`mongodb://${DB_USER}:${DB_PASS}@localhost:27017/test`);
 
 connection.on("connected", () => {
     console.log(`\nConnected to database\n`);
