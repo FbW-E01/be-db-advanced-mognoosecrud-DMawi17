@@ -1,9 +1,10 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import { connection, disconnection } from "./connection.js";
-// import create from "./create.js";
+import create from "./create.js";
 import read from "./read.js";
-import update from "./update.js";
+import updateAnd from "./update.js";
+import deleteUser from "./delete.js";
 
 dotenv.config();
 
@@ -16,9 +17,10 @@ mongoose.connection.on("error", () => {
 });
 // ***
 
-// await create();
-await update();
+await create();
 await read();
+await updateAnd();
+await deleteUser();
 
 // ***
 disconnection();
