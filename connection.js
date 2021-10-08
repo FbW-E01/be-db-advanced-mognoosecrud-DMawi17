@@ -1,21 +1,43 @@
 import mongoose from "mongoose";
+import create from "./create.js";
+import read from "./read.js";
+import updateAnd from "./update.js";
+import deleteUser from "./delete.js";
+const { connection, Schema } = mongoose;
 
-const connection = async () => {
-    const mongoUri =
-        "mongodb://" +
-        process.env.DB_USER +
-        ":" +
-        process.env.DB_PASS +
-        "@" +
-        process.env.DB_HOST +
-        "/" +
-        process.env.DB_NAME;
+mongoose.connect("mongodb://classTester:1to5@localhost:27017/test");
 
-    await mongoose.connect(mongoUri);
-};
+const UserSchema = new Schema({
+    email: {
+        type: String,
+        unique: "Email already exists",
+    },
+    password: {
+        type: String,
+        minLength: 8,
+    },
+    role: {
+        type: String,
+        enum: ["User", "Admin", "Editor"],
+    },
+});
 
-const disconnection = async () => {
-    await mongoose.disconnect();
-};
+connection.once("connected", async () => {
+    try {
+        // Create
+        await creat();
+        // Read
+        await read();
+        // Update
+        await updateAnd();
+        console.log(JSON.stringify(user, null, 4));
+        // Delete
+        await deleteUser();
+    } catch (error) {
+        console.dir(error.message, { colors: true });
+    } finally {
+        await connection.close();
+    }
+});
 
-export { connection, disconnection };
+export default mongoose.model("Person", UserSchema);
