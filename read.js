@@ -5,7 +5,7 @@ const read = async () => {
         let users = await Person.find().select("email and role");
         console.log(users);
     } catch (err) {
-        res.status(400).json({ error: err.message });
+        console.log(err);
     }
 };
 
