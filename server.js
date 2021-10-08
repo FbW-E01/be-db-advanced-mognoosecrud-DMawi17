@@ -15,14 +15,12 @@ mongoose.connection.on("connected", () => {
 mongoose.connection.on("error", () => {
     throw new Error(`unable to connect to database`);
 });
-// ***
 
 await create();
 await read();
 await updateAnd();
 await deleteUser();
 
-// ***
 disconnection();
 mongoose.connection.on("disconnected", () => {
     console.log(`Disconnected from the database`);
