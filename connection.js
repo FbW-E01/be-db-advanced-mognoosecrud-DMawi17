@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const connection = async () => {
+const conn = async () => {
     const mongoUri =
         "mongodb://" +
         process.env.DB_USER +
@@ -14,8 +14,8 @@ const connection = async () => {
     await mongoose.connect(mongoUri);
 };
 
-const disconnection = async () => {
+const disConn = async () => {
     await mongoose.disconnect();
 };
 
-export { connection, disconnection };
+export { conn, disConn };
