@@ -3,35 +3,25 @@ import create from "./create.js";
 import read from "./read.js";
 import updateAnd from "./update.js";
 import deleteUser from "./delete.js";
-const { connection, Schema } = mongoose;
+const { connect, connection } = mongoose;
 
-mongoose.connect("mongodb://classTester:1to5@localhost:27017/test");
+connect("mongodb://classTester:1to5@localhost:27017/test");
 
-const UserSchema = new Schema({
-    email: {
-        type: String,
-        unique: "Email already exists",
-    },
-    password: {
-        type: String,
-        minLength: 8,
-    },
-    role: {
-        type: String,
-        enum: ["User", "Admin", "Editor"],
-    },
+connection.on("connected", () => {
+    console.log(`\nConnected to database\n`);
+});
+connection.on("error", () => {
+    throw new Error(`unable to connect to database`);
+});
+connection.on("disconnected", () => {
+    console.log(`Disconnected from the database`);
 });
 
 connection.once("connected", async () => {
     try {
-        // Create
         await create();
-        // Read
         await read();
-        // Update
         await updateAnd();
-        // console.log(JSON.stringify(user, null, 4));
-        // Delete
         await deleteUser();
     } catch (error) {
         console.dir(error.message, { colors: true });
@@ -39,5 +29,3 @@ connection.once("connected", async () => {
         await connection.close();
     }
 });
-
-export default mongoose.model("Person", UserSchema);
