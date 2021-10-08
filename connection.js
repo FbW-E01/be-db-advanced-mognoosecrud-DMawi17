@@ -1,7 +1,5 @@
 import mongoose from "mongoose";
 
-const port = process.env.PORT || 3000;
-
 const connection = async () => {
     const mongoUri =
         "mongodb://" +
@@ -17,8 +15,7 @@ const connection = async () => {
 };
 
 const disconnection = async () => {
-    await setTimeout(() => {
-        mongoose.disconnect();
-    }, 3000);
+    await mongoose.disconnect();
 };
-export { port, connection, disconnection };
+
+export { connection, disconnection };

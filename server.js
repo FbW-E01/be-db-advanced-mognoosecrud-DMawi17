@@ -10,7 +10,7 @@ dotenv.config();
 
 connection();
 mongoose.connection.on("connected", () => {
-    console.log(`Connected to database`);
+    console.log(`\nConnected to database\n`);
 });
 mongoose.connection.on("error", () => {
     throw new Error(`unable to connect to database`);
