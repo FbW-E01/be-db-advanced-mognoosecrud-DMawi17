@@ -1,21 +1,35 @@
 import mongoose from "mongoose";
+import dotenv from "dotenv";
+import create from "./create.js";
+import read from "./read.js";
+import updateAnd from "./update.js";
+import deleteUser from "./delete.js";
+const { connect, connection } = mongoose;
 
-const conn = async () => {
-    const mongoUri =
-        "mongodb://" +
-        process.env.DB_USER +
-        ":" +
-        process.env.DB_PASS +
-        "@" +
-        process.env.DB_HOST +
-        "/" +
-        process.env.DB_NAME;
+dotenv.config();
+const { DB_USER, DB_PASS } = process.env;
 
-    await mongoose.connect(mongoUri);
-};
+connect(`mongodb://${DB_USER}:${DB_PASS}@localhost:27017/test`);
 
-const disConn = async () => {
-    await mongoose.disconnect();
-};
+connection.on("connected", () => {
+    console.log(`\nConnected to database\n`);
+});
+connection.on("error", () => {
+    throw new Error(`unable to connect to database`);
+});
+connection.on("disconnected", () => {
+    console.log(`Disconnected from the database`);
+});
 
-export { conn, disConn };
+connection.once("connected", async () => {
+    try {
+        await create();
+        await read();
+        await updateAnd();
+        await deleteUser();
+    } catch (error) {
+        console.dir(error.message, { colors: true });
+    } finally {
+        await connection.close();
+    }
+});
