@@ -25,12 +25,12 @@ const UserSchema = new Schema({
 connection.once("connected", async () => {
     try {
         // Create
-        await creat();
+        await create();
         // Read
         await read();
         // Update
         await updateAnd();
-        console.log(JSON.stringify(user, null, 4));
+        // console.log(JSON.stringify(user, null, 4));
         // Delete
         await deleteUser();
     } catch (error) {

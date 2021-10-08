@@ -1,4 +1,4 @@
-import Person from "./user.js";
+import Person from "./connection.js";
 
 const read = async () => {
     try {
